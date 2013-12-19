@@ -1,6 +1,45 @@
-introduction: () ->
-	"Hey there, I'm Vera. I'll help you keep your health on track, but first, what's your name?
-	Respond with: 'My name is ______'"
+module.exports =
+	intro = 
+		init: () ->
+			"Hey I'm Vera, it's nice to meet you. What's your name? For example: 'Robert'"
+
+		age: (name) ->
+			"Hi " + name + " I have some questions for you. First, what's your age in years? For example: 'age: 37'"
+
+		height: () ->
+			"Great. How tall are you in inches? Don't be shy! For example: 'height: 64'"
+
+		weight: () ->
+			"No way, me too! How much do you weigh in pounds? For example: 'weight: 214'"
+
+		sex: () ->
+			"I'm going to calculate your BMI, but you have to tell me what sex you are. For example: 'sex: Female' or 'sex: Male'"
+
+		bmi: (bmi) ->
+			str = "It looks like you have a BMI of " + bmi + ", which is "
+			if bmi < 18.5 then str += "underweight. We'll get you back on track!"
+			if bmi < 25 and bmi >= 18.5 then str += "healthy. Let's keep it that way!"
+			if bmi < 30 and bmi >= 25 then str += "overweight. We'll get you back on track!"
+			if bmi > 30 then str += "obese. Get ready to turn your life around :)"
+			str += " Are you diabetic? For example: 'diabetic: yes', 'diabetic: no', or 'diabetic: not sure'"
+			return str
+		
+		diabetic: (isDiabetic) ->
+			if isDiabetic is null then return "If you suspect something's wrong, it's always a good idea to ask a doctor. But I'll help you make better choices, with or without diabetes!"
+			if isDiabetic then return "Ah, don't worry too much! You can fight diabetes with good choices, and that's why I'm here."
+			if not isDiabetic then return "Good for you! Keeping diabetes away is important, and surprisingly simple as long as you make good decisions."
+
+		goodbye: (name, age, height, weight, sex, diabetic) ->
+			return "Alright, " + name + "! I have you down as " + age + " years old, " + sex + ", " + parseHeight(height) + " tall, " + weight + " pounds. Did I mess anything up? You can tell me about your health at any time. Here are the things I care about:
+					height, weight, age, foods, minutes of activity, fasting glucose, resting heart rate, and calories. Tell me 'help' if you forget about these!"
+
+
+
+
+
+
+
+
 
 printFoods: (list) ->
 	last = list[list.length - 1]
