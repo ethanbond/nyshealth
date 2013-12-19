@@ -2,7 +2,6 @@ introduction: () ->
 	"Hey there, I'm Vera. I'll help you keep your health on track, but first, what's your name?
 	Respond with: 'My name is ______'"
 
-
 printFoods: (list) ->
 	last = list[list.length - 1]
 	str = ''
@@ -12,6 +11,23 @@ printFoods: (list) ->
 
 	return str
 
+getData: (phone) ->
+
+
+help: () ->
+	return """
+	Don't worry, I'm here already! Here's a list of example things you can tell me:
+	'get data',	
+	'name: Ray',
+	'height: 60',
+	'weight: 214',
+	'food: salad, steak, potatos',
+	'calories: 1850',
+	'age: 20',
+	'minutes of activity: 45',
+	'fasting glucose: 82',
+	'resting heart rate: 63'
+	"""
 
 switchType: (baseStr, type) ->
 	switch

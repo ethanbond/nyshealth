@@ -1,23 +1,33 @@
-"Hey I'm Vera, it's nice to meet you. What's your name? Respond with: 'My name is ______'"
+"Hey I'm Vera, it's nice to meet you. What's your name? For example: 'Robert'"
 
-"Hi {name}, I have some questions for you. First, how old are you? Respond with: 'I am ___ years old'"
+"Hi {name}, I have some questions for you. First, what's your age in years? For example: 'age: 37'"
 
-"Great. How tall are you? Don't be shy! Respond with: 'I am ___ feet, ___ inches tall'"
+"Great. How tall are you in inches? Don't be shy! For example: 'height: 64'"
 
-"No way, me too! How much do you weigh? Respond with: 'I weigh ___ pounds'"
+"No way, me too! How much do you weigh in pounds? For example: 'weight: 214'"
+
+"I'm going to calculate your BMI, but you have to tell me what sex you are. For example: 'sex: Female' or 'sex: Male'"
+
 IF OVERWEIGHT
 	"It looks like you have a BMI of {calcBMI}, which is overweight. We'll get you on track for a healthier life in no time."
 ELSE
-	"It looks like you have a BMI of {calcBMI}, which is healthy! We'll make sure you stay that way. Do you happen to know if you're diabetic? Respond with: 'I [am/am not] diabetic' or 'I don't know if I am diabetic'"
+	"It looks like you have a BMI of {calcBMI}, which is healthy! We'll make sure you stay that way. Do you happen to know if you're diabetic?
 
-"Do you happen to know if you're diabetic? Respond with: 'I [am/am not] diabetic' or 'I don't know if I am diabetic'"
+"Say if you're diabetic or not, or if you don't know. For example: 'diabetic: yes', 'diabetic: no', or 'diabetic: not sure'"
 
 IF DIABETIC
-	"Ah, don't worry too much! You can fight diabetes with good choices, and that's why I'm here. Respond with: 'Okay'"
+	"Ah, don't worry too much! You can fight diabetes with good choices, and that's why I'm here."
 IF NON DIABETIC
-	"Good for you! Keeping diabetes away is important, and surprisingly simple as long as you make good decisions. Respond with: 'Okay'"
+	"Good for you! Keeping diabetes away is important, and surprisingly simple as long as you make good decisions."
 ELSE (unknown)
-	"If you suspect something's wrong, it's always a good idea to ask a doctor. But I'll help you make better choices, with or without diabetes! Respond with: 'Okay'"
+	"If you suspect something's wrong, it's always a good idea to ask a doctor. But I'll help you make better choices, with or without diabetes!"
+
+
+"You can tell me about your health at any time. Here are the things I care about:
+height, weight, age, foods, activity, fasting glucose, and calories. Tell me 'help' if you forget about these!"
+
+
+"Got it, thanks!"
 
 --------------------------------------------------------
 FOOD INQUIRY
@@ -39,3 +49,15 @@ IF UNHEALTHY
 IF HEALTHY
 	"Looking good :) You're probably feeling better, too. Good choices pay off!"
 
+---------------------------------------------------------
+HELP RESPONSE
+
+"Don't worry, I'm here already! Here's a list of example things you can tell me:
+'height: 60',
+'weight: 214',
+'food: salad, steak, potatoes',
+'calories: 1850',
+'age: 20',
+'minutes of activity: 45',
+'fasting glucose: 82',
+'resting heart rate: 63'"
