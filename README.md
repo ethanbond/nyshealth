@@ -1,8 +1,6 @@
-coffeegrounds
+NYS Health Code-a-thon
 =============
 
-A starting point for node.js web projects. Includes coffeescript, dust.js, SASS, and Zurb Foundation.
-
-```
-npm install
-```
+@raymondjacobson and @ethanbond submission to NYS Health Data Codeathon 2013
+EMPAC at RPI
+Dec 19
