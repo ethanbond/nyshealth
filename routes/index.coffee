@@ -1,17 +1,15 @@
 twilio = require 'twilio'
+parser = require '../lib/parser'
 
 module.exports =
   index: (req, res)->
     res.send 'Nothing ot see here'
   twil: (req, res)->
-    resp = new twilio.TwimlResponse()
     console.log 'Incoming request data: '
     for k, v of req.query
       console.log k.green+v
-    resp.sms
-      from: "+15186335464"
-      to: req.query.From
-    , req.query.Body + " is what you said. Fuck off"
+    content = parser.parse(req.query.Body, req.query.From)
+    resp = parser.buildResponse(req.query.From, content)
     res.writeHead 200,
       "Content-Type": "text/xml"
     res.end resp.toString()
