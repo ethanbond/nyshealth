@@ -26,16 +26,15 @@ dataReq: (name, time, requestType) ->
 	return switchType("Good evening " + name + "! Just thought I'd drop in and make sure you're still on track. ", requestType)
 
 response: (q, a, recL, recH) ->
-	response = ''
 	if a > recL and a < recH 		# this is good!
 		switch
-			when q is 1 then response += "Wow! Those all seem pretty healthy! Keep up the good work."
-			when q is 2 then response += "Looking good :) You're probably feeling better, too. Good choices pay off!"
-			when q is 3 then response += "Nice, that's within the healthy range - good work."
-			when q is 4 then response += "See, they're not that bad! Keep going :)"
+			when q is 1 then return "Wow! Those all seem pretty healthy! Keep up the good work."
+			when q is 2 then return "Looking good :) You're probably feeling better, too. Good choices pay off!"
+			when q is 3 then return "Nice, that's within the healthy range - good work."
+			when q is 4 then return "See, they're not that bad! Keep going :)"
 	else
 		switch
-			when q is 1 then response += "Uh oh... The " + printFoods a + " is probably less healthy than you think. I'll check in tomorrow to see if you made better choices!"
-			when q is 2 then response += a + " pounds? You've got some work to do! Try walking a bit more to make up for the caloric intake. I'll come by again tomorrow to see some progress!"
-			when q is 3 then response += "Eek :( " + a + " calories is more than enough for you! Try to watch how much you're eating tomorrow and I'll check back in."
-			when q is 4 then response += "Vegetables really aren't that bad. Really! Eat some more tomorrow and I'll stop by to see some progress"
+			when q is 1 then return "Uh oh... The " + printFoods a + " is probably less healthy than you think. I'll check in tomorrow to see if you made better choices!"
+			when q is 2 then return a + " pounds? You've got some work to do! Try walking a bit more to make up for the caloric intake. I'll come by again tomorrow to see some progress!"
+			when q is 3 then return "Eek :( " + a + " calories is more than enough for you! Try to watch how much you're eating tomorrow and I'll check back in."
+			when q is 4 then return "Vegetables really aren't that bad. Really! Eat some more tomorrow and I'll stop by to see some progress"
