@@ -19,6 +19,7 @@ if 'development' == app.get 'env'
 	app.use express.errorHandler()
 
 
+app.get '/twil', routes.twil
 app.get '/', routes.index
 
 server.listen 3000
