@@ -1,5 +1,5 @@
 twilio = require 'twilio'
-dialog = require 'dialog'
+dialog = require './dialog'
 
 twilioNumber = "+15186335464"
 content = dialog.defaultContent()
@@ -8,6 +8,7 @@ exports.parse = (body) ->
   name = (body.toLowerCase().split "hi my name is ")[1]
   if name
     content = dialog.niceToMeetYou(name)
+    console.log(name)
     return content
   content = dialog.whoAreYou()
 
