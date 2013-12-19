@@ -7,9 +7,6 @@ routes 		= require './routes'
 models		= require './models'
 
 colors		= require 'colors'
-dust		= require 'dustjs-linkedin'
-cons 		= require 'consolidate'
-sass		= require 'node-sass'
 
 app.set 'port', process.env.PORT || 3000
 app.set 'views', __dirname + '/views'
