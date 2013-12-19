@@ -1,0 +1,17 @@
+{
+  "name": "coffeegrounds",
+  "version": "0.0.1",
+  "engines": {
+    "node": "0.6.x"
+  },
+  "scripts": {
+    "start": "coffee app.coffee"
+  },
+  "dependencies": {
+    "express": "~3.3.4",
+    "coffee-script": "~1.6.3",
+    "colors": "~0.6.0-1",
+    "socket.io": "~0.9.16",
+    "request": "~2.30.0"
+  }
+}

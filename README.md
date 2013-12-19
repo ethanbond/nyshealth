@@ -1,1 +1,8 @@
-NYS Health Data Code-a-Thon - Dec 19 2013
+coffeegrounds
+=============
+
+A starting point for node.js web projects. Includes coffeescript, dust.js, SASS, and Zurb Foundation.
+
+```
+npm install
+```
