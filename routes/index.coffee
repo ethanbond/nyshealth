@@ -8,7 +8,7 @@ module.exports =
     console.log 'Incoming request data: '
     for k, v of req.query
       console.log k.green+v
-    content = parser.parse(req.query.Body)
+    content = parser.parse(req.query.Body, req.query.From)
     resp = parser.buildResponse(req.query.From, content)
     res.writeHead 200,
       "Content-Type": "text/xml"
