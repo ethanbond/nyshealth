@@ -1,0 +1,41 @@
+"Hey I'm Vera, it's nice to meet you. What's your name? Respond with: 'My name is ______'"
+
+"Hi {name}, I have some questions for you. First, how old are you? Respond with: 'I am ___ years old'"
+
+"Great. How tall are you? Don't be shy! Respond with: 'I am ___ feet, ___ inches tall'"
+
+"No way, me too! How much do you weigh? Respond with: 'I weigh ___ pounds'"
+IF OVERWEIGHT
+	"It looks like you have a BMI of {calcBMI}, which is overweight. We'll get you on track for a healthier life in no time."
+ELSE
+	"It looks like you have a BMI of {calcBMI}, which is healthy! We'll make sure you stay that way. Do you happen to know if you're diabetic? Respond with: 'I [am/am not] diabetic' or 'I don't know if I am diabetic'"
+
+"Do you happen to know if you're diabetic? Respond with: 'I [am/am not] diabetic' or 'I don't know if I am diabetic'"
+
+IF DIABETIC
+	"Ah, don't worry too much! You can fight diabetes with good choices, and that's why I'm here. Respond with: 'Okay'"
+IF NON DIABETIC
+	"Good for you! Keeping diabetes away is important, and surprisingly simple as long as you make good decisions. Respond with: 'Okay'"
+ELSE (unknown)
+	"If you suspect something's wrong, it's always a good idea to ask a doctor. But I'll help you make better choices, with or without diabetes! Respond with: 'Okay'"
+
+--------------------------------------------------------
+FOOD INQUIRY
+
+"Hey there! Just thought I'd drop in and see if you're on track still! What have you eaten today? Respond with: 'I ate _____, _____, _____'"
+
+IF UNHEALTHY
+	"Uh oh... The {unhealthyFood} is probably less healthy than you think. Remember to avoid simple sugars like candy and excessive fruits. I'll check in again tomorrow so eat healthy!"
+IF HEALTHY
+	"Wow! Those all seem pretty healthy! Keep up the good work."
+
+--------------------------------------------------------
+WEIGHT INQUIRY
+
+"Hey there! Just thought I'd drop in and see if you're on track still! Has your weight changed recently? Respond with: 'I weigh  _____'"
+
+IF UNHEALTHY
+	"{weight} pounds? You've got some work to do! Try walking a bit more to make up for the caloric intake. I'll come by again tomorrow to see some progress!"
+IF HEALTHY
+	"Looking good :) You're probably feeling better, too. Good choices pay off!"
+
