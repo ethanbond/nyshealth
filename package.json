@@ -13,6 +13,7 @@
     "colors": "~0.6.0-1",
     "socket.io": "~0.9.16",
     "request": "~2.30.0",
-    "twilio": "1.4.0"
+    "twilio": "1.4.0",
+    "firebase": "~1.0.1"
   }
 }
