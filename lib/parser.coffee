@@ -22,26 +22,21 @@ checkIfPhoneExists = (phoneNumber) ->
 exports.parse = (body, phoneNumber) ->
   console.log(body)
 
+  # GENERAL STATS
   name = getValue(body, "name:")
   if name
     name = upperCase(name)
-    # check & insert phone number into DB
-    unless checkIfPhoneExists(phoneNumber)
-      console.log phoneNumber
-      phoneRef = dataRef.child(phoneNumber)
     # save name
-    phoneRef.set
-      name: name
-      age: null
-      gender: null
+    phoneRef = dataRef.child(phoneNumber)
+    phoneRef.update name: name
     return dialog.niceToMeetYou(name)
 
   gender = getValue(body, "gender:")
   if gender
     gender = upperCase(gender)
     # save gender
-    genderRef = dataRef.child(phoneNumber)
-    genderRef.update gender: gender
+    phoneRef = dataRef.child(phoneNumber)
+    phoneRef.update gender: gender
     return dialog.niceToMeetYou(gender)
 
   age = getValue(body, "age:")
@@ -51,6 +46,7 @@ exports.parse = (body, phoneNumber) ->
     phoneRef.update age: age
     return dialog.niceToMeetYou(age)
 
+  # RECURRING MEASUREMENTS
   weight = getValue(body, "weight:")
   if weight
     # save weight measurement with date
@@ -69,6 +65,27 @@ exports.parse = (body, phoneNumber) ->
       time: (new Date()).toString()
     return dialog.thanks()
 
+  diabetic = getValue(body, "diabetic:")
+  if diabetic
+    # save diabetic
+    phoneRef = dataRef.child(phoneNumber)
+    phoneRef.update diabetic: diabetic
+    return dialog.diabetic
+
+  # DEFAULT
+
+  if body == "help"
+    return dialog.help()
+
+  unless checkIfPhoneExists(phoneNumber)
+    console.log phoneNumber
+    phoneRef = dataRef.child(phoneNumber)
+  # save default data
+  phoneRef.set
+    name: null
+    age: null
+    gender: null
+    diabetic: null
   return dialog.whoAreYou()
 
 exports.buildResponse = (fromNumber, messageBody) ->
