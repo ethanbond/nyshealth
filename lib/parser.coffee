@@ -20,7 +20,7 @@ checkIfPhoneExists = (phoneNumber) ->
     return exists
 
 calculateBMI = (height, weight) ->
-  return (weight/height)*(weight/height)*703
+  return parseInt((weight/height)*(weight/height)*703)
 
 exports.parse = (body, phoneNumber, cb) ->
   console.log(body)
@@ -48,7 +48,15 @@ exports.parse = (body, phoneNumber, cb) ->
     phoneRef.update sex: sex
     phoneRef.once "value", (snapshot) ->
       if snapshot.val().diabetic is -1
-        cb phoneNumber, dialogue.intro.bmi(calculateBMI(100, 100))
+        phoneRef.child('weights').once "value", (snapshot) ->
+        for key, val of snapshot.val()
+          break
+        bmiWeight = val.weight
+        phoneRef.child('heights').once "value", (snapshot) ->
+        for key, val of snapshot.val()
+          break
+        bmiHeight = val.height
+        cb phoneNumber, dialogue.intro.bmi(calculateBMI(bmiHeight, bmiWeight))
         return
       cb phoneNumber, dialogue.gotIt()
       return
@@ -130,6 +138,10 @@ exports.parse = (body, phoneNumber, cb) ->
     cb phoneNumber, dialogue.help()
     return
 
+  else if checkIfPhoneExists(phoneNumber)
+    cb phoneNumber, dialogue.help()
+    return
+
   else #if checkIfPhoneExists(phoneNumber)
     console.log phoneNumber
     phoneRef = dataRef.child(phoneNumber)
@@ -137,7 +149,7 @@ exports.parse = (body, phoneNumber, cb) ->
     phoneRef.set
       name: -1
       age: -1
-      gender: -1
+      sex: -1
       diabetic: -1
     cb phoneNumber, dialogue.intro.init()
     return
