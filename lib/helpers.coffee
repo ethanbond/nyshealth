@@ -21,9 +21,9 @@ age_pool = (age) ->
   else 2  if age < 65
 
 gender_pool = (gender) ->
-  if gender[0] is "m"
+  if gender[0] is "Male"
     0
-  else if gender[0] is "f"
+  else if gender[0] is "Female"
     1
   else
     1

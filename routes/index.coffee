@@ -35,6 +35,7 @@ module.exports =
       for phoneNumber, dataSet of snapshot.val()
           for dataKey, dataPack of dataSet
             if (dataKey is 'export') and (dataPack is urlString)
+              console.log getBMIs(dataRef.child(phoneNumber))
               res.render 'export',
                 metadata: 
                   title: urlString

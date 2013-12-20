@@ -5,8 +5,8 @@
 		<meta name="description" content="{metadata.description}" />
 		<meta name="author" content="{metadata.author}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<script src="/javascripts/dust.js"></script>
-		<script type="text/javascript" src="/assets/Chart.min.js"></script>
+		<script src="/dust.js"></script>
+		<script type="text/javascript" src="/Chart.min.js"></script>
 		{+stylesheets/}
 	</head>
 	<body>
