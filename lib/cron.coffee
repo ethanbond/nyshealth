@@ -1,5 +1,5 @@
 Firebase = require 'firebase'
-dialog = require '../assets/dialogue'
+dialogue = require '../assets/dialogue'
 parser = require './parser'
 helpers = require './helpers'
 messenger = require './messenger'
@@ -16,8 +16,9 @@ module.exports =
     updateFriends = () ->
       dataRef.once "value", (snapshot) ->
         for phoneNumber, dataSet of snapshot.val()
-          # helpers.random_food_tip(messenger.sendMessage, phoneNumber) # SEND TIPS
+          # helpers.random_tip(messenger.sendMessage, phoneNumber, 'food') # SEND TIPS
           console.log "===" + phoneNumber + "==="
+          phoneRef = dataRef.child(phoneNumber)
           for dataKey, dataPack of dataSet
             console.log "---" + dataKey + "---"
             if typeof dataPack is 'object'
@@ -25,6 +26,12 @@ module.exports =
                 console.log measurementData.height
                 console.log measurementData.time
             else
+              if dataKey is 'daysUntil'
+                phoneRef.child('daysUntil').once "value", (snapshot) ->
+                  if parseInt(snapshot.val()) is 0
+                    helpers.random_tip(messenger.sendMessage, phoneNumber, 'activity')
+                    parser.updateTimeSeries phoneNumber
+                  phoneRef.update daysUntil: snapshot.val()-1
               console.log dataPack
 
     job = schedule.scheduleJob rule, () ->

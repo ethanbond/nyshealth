@@ -33,6 +33,64 @@ getInterval = (age, bmi, gender, isDiabetic) ->
   helpers.text_interval helpers.riskf(age, bmi, gender), isDiabetic
 # helper functions also expose random_food_tip(cb(JSONtip))
 
+
+updateInterval = (phoneNumber, newInterval) ->
+  phoneRef = dataRef.child(phoneNumber)
+  phoneRef.child('daysUntil').once "value", (snapshot) ->
+    console.log snapshot.val()
+    console.log newInterval
+    if newInterval < snapshot.val() || snapshot.val() < 1
+      phoneRef.update daysUntil: newInterval
+
+updateTimeSeries = (phoneNumber) ->
+  phoneRef = dataRef.child(phoneNumber)
+  phoneRef.child('age').once "value", (age_ss) ->
+    age = age_ss.val()
+    phoneRef.child('sex').once "value", (sex_ss) ->
+      sex = sex_ss.val()
+      phoneRef.child('diabetic').once "value", (diabetic_ss) ->
+        isDiabetic = (diabetic_ss.val() or false)
+        phoneRef.child('weights').once "value", (weights_ss) ->
+          weightResult = []
+          for key, val of weights_ss.val()
+            for w1, w2 of val
+              if w1 is 'weight'
+                weightResult.push w2
+          latestWeight = weightResult[weightResult.length - 1]
+          phoneRef.child('heights').once "value", (heights_ss) ->
+            heightResult = []
+            for k, v of heights_ss.val()
+              for h1, h2 of v
+                if h1 is 'height'
+                  heightResult.push h2
+            latestHeight = heightResult[heightResult.length - 1]
+            updateInterval phoneNumber, (getInterval age, (calculateBMI latestWeight, latestHeight), sex, isDiabetic)
+
+exports.updateTimeSeries = (phoneNumber) ->
+  phoneRef = dataRef.child(phoneNumber)
+  phoneRef.child('age').once "value", (age_ss) ->
+    age = age_ss.val()
+    phoneRef.child('sex').once "value", (sex_ss) ->
+      sex = sex_ss.val()
+      phoneRef.child('diabetic').once "value", (diabetic_ss) ->
+        isDiabetic = (diabetic_ss.val() or false)
+        phoneRef.child('weights').once "value", (weights_ss) ->
+          weightResult = []
+          for key, val of weights_ss.val()
+            for w1, w2 of val
+              if w1 is 'weight'
+                weightResult.push w2
+          latestWeight = weightResult[weightResult.length - 1]
+          phoneRef.child('heights').once "value", (heights_ss) ->
+            heightResult = []
+            for k, v of heights_ss.val()
+              for h1, h2 of v
+                if h1 is 'height'
+                  heightResult.push h2
+            latestHeight = heightResult[heightResult.length - 1]
+            updateInterval phoneNumber, (getInterval age, (calculateBMI latestWeight, latestHeight), sex, isDiabetic)
+
+
 exports.parse = (body, phoneNumber, cb) ->
   console.log(body)
 
@@ -58,12 +116,11 @@ exports.parse = (body, phoneNumber, cb) ->
     phoneRef.update sex: sex
     phoneRef.once "value", (snapshot) ->
       if snapshot.val().diabetic is -1
-        bmiWeight = 150
-        bmiHeight = 70
         phoneRef.child('weights').once "value", (snapshot) ->
           for key, val of snapshot.val()
             phoneRef.child('heights').once "value", (ss) ->
               for k, v of ss.val()
+                phoneRef.update daysUntil: 1
                 cb phoneNumber, dialogue.intro.bmi(calculateBMI val.weight, v.height)
                 break
             break
@@ -94,12 +151,13 @@ exports.parse = (body, phoneNumber, cb) ->
         cb phoneNumber, dialogue.intro.weight()
         heightRef.push
           height: height
-          time: (new Date()).toString()
+          time: new Date() / 1000
         return
       cb phoneNumber, dialogue.gotIt()
       heightRef.push
         height: height
-        time: (new Date()).toString()
+        time: new Date() / 1000
+      updateTimeSeries phoneNumber
       return
 
   else if getValue(body, "weight:")
@@ -112,19 +170,20 @@ exports.parse = (body, phoneNumber, cb) ->
         cb phoneNumber, dialogue.intro.sex()
         weightRef.push
           weight: weight
-          time: (new Date()).toString()
+          time: new Date() / 1000
         return
       cb phoneNumber, dialogue.gotIt()
       weightRef.push
         weight: weight
-        time: (new Date()).toString()
+        time: new Date() / 1000
+      updateTimeSeries phoneNumber
       return
 
   else if getValue(body, "diabetic:")
     diabetic = getValue(body, "diabetic:")
-    if diabetic is "yes"
+    if diabetic.toLowerCase() is "yes"
       diabetic = true
-    else if diabetic is "notsure"
+    else if diabetic.toLowerCase() is "notsure"
       diabetic = null
     else
       diabetic = false
