@@ -16,13 +16,18 @@ getValue = (body, trigger) ->
   split = noWS.split trigger
   return split[1]
 
-checkIfPhoneExists = (phoneNumber) ->
+checkIfPhoneExists = (phoneNumber, callback) ->
   dataRef.child(phoneNumber).once "value", (snapshot) ->
-    exists = (snapshot.val() isnt null)
-    return exists
+    exists = (snapshot.val() is null)
+    callback (not exists)
 
-calculateBMI = (height, weight) ->
-  return parseInt((weight/(height*height))*703)
+calculateBMI = (weight, height) ->
+  height = parseInt height
+  weight = parseInt weight
+  denominator = height * height
+  numerator = weight
+  frac = numerator / denominator
+  return frac * 703
 
 getInterval = (age, bmi, gender, isDiabetic) ->
   helpers.text_interval helpers.riskf(age, bmi, gender), isDiabetic
@@ -33,7 +38,6 @@ exports.parse = (body, phoneNumber, cb) ->
 
   # GENERAL STATS
   if getValue(body, "name:")
-    console.log "name called"
     name = getValue(body, "name:")
     name = upperCase(name)
     # save name
@@ -54,15 +58,15 @@ exports.parse = (body, phoneNumber, cb) ->
     phoneRef.update sex: sex
     phoneRef.once "value", (snapshot) ->
       if snapshot.val().diabetic is -1
+        bmiWeight = 150
+        bmiHeight = 70
         phoneRef.child('weights').once "value", (snapshot) ->
-        for key, val of snapshot.val()
-          break
-        bmiWeight = val.weight
-        phoneRef.child('heights').once "value", (snapshot) ->
-        for key, val of snapshot.val()
-          break
-        bmiHeight = val.height
-        cb phoneNumber, dialogue.intro.bmi(calculateBMI(bmiHeight, bmiWeight))
+          for key, val of snapshot.val()
+            phoneRef.child('heights').once "value", (ss) ->
+              for k, v of ss.val()
+                cb phoneNumber, dialogue.intro.bmi(calculateBMI val.weight, v.height)
+                break
+            break
         return
       cb phoneNumber, dialogue.gotIt()
       return
@@ -85,14 +89,17 @@ exports.parse = (body, phoneNumber, cb) ->
     # save height measurement with date
     phoneRef = dataRef.child(phoneNumber)
     heightRef = phoneRef.child('heights')
-    heightRef.push
-      height: height
-      time: (new Date()).toString()
-    phoneRef.child('weight').once "value", (snapshot) ->
+    heightRef.once "value", (snapshot) ->
       if snapshot.val() is null
         cb phoneNumber, dialogue.intro.weight()
+        heightRef.push
+          height: height
+          time: (new Date()).toString()
         return
       cb phoneNumber, dialogue.gotIt()
+      heightRef.push
+        height: height
+        time: (new Date()).toString()
       return
 
   else if getValue(body, "weight:")
@@ -100,21 +107,24 @@ exports.parse = (body, phoneNumber, cb) ->
     # save weight measurement with date
     phoneRef = dataRef.child(phoneNumber)
     weightRef = phoneRef.child('weights')
-    weightRef.push
-      weight: weight
-      time: (new Date()).toString()
-    phoneRef.child('weight').once "value", (snapshot) ->
+    weightRef.once "value", (snapshot) ->
       if snapshot.val() is null
         cb phoneNumber, dialogue.intro.sex()
+        weightRef.push
+          weight: weight
+          time: (new Date()).toString()
         return
       cb phoneNumber, dialogue.gotIt()
+      weightRef.push
+        weight: weight
+        time: (new Date()).toString()
       return
 
   else if getValue(body, "diabetic:")
     diabetic = getValue(body, "diabetic:")
-    if diabetic == "yes"
+    if diabetic is "yes"
       diabetic = true
-    else if diabetic == "notsure"
+    else if diabetic is "notsure"
       diabetic = null
     else
       diabetic = false
@@ -126,7 +136,7 @@ exports.parse = (body, phoneNumber, cb) ->
 
   # DEFAULT
 
-  else if body == "profile"
+  else if body.toLowerCase() is "profile"
     phoneRef.once "value", (snapshot) ->
       name = snapshot.val().name
       age = snapshot.val().age
@@ -140,23 +150,23 @@ exports.parse = (body, phoneNumber, cb) ->
     cb phoneNumber, dialogue.profile(name, age, sex, diabetic)
     return
 
-  else if body == "help"
-    cb phoneNumber, dialogue.help()
+  else if body.toLowerCase() is "info"
+    cb phoneNumber, dialogue.info()
     return
 
-  else if checkIfPhoneExists(phoneNumber)
-    cb phoneNumber, dialogue.help()
-    return
-
-  else #if checkIfPhoneExists(phoneNumber)
-    console.log phoneNumber
-    phoneRef = dataRef.child(phoneNumber)
-    # save default data
-    phoneRef.set
-      name: -1
-      age: -1
-      sex: -1
-      diabetic: -1
-    cb phoneNumber, dialogue.intro.init()
-    return
+  else
+    checkIfPhoneExists phoneNumber, (exists) ->
+      if not exists
+        console.log phoneNumber
+        phoneRef = dataRef.child(phoneNumber)
+        # save default data
+        phoneRef.set
+          name: -1
+          age: -1
+          sex: -1
+          diabetic: -1
+        cb phoneNumber, dialogue.intro.init()
+        return
+      cb phoneNumber, dialogue.info()
+      return
 

@@ -1,3 +1,6 @@
+request = require 'request'
+messenger = require './messenger'
+
 bmi_pool = (bmi) ->
   if bmi < 18
     0
@@ -43,13 +46,11 @@ module.exports =
 
   #text daily if diabetic, scaled frequency if not
 
-  random_food_tip: () ->
-    a = $.getJSON("https://health.data.ny.gov/resource/diabetes-type-2-prevention-tips.json?category=Make%20healthy%20food%20choices", (json) ->
-      alert json[Math.floor(Math.random() * json.length)].tip
-    )
-  random_food_tip_cb: (callback) ->
-    $.getJSON "https://health.data.ny.gov/resource/diabetes-type-2-prevention-tips.json?category=Make%20healthy%20food%20choices", (json) ->
-      callback json
-
-
-  #instead of alert use whatever function pushes a text message
+  random_food_tip: (cb, phoneNumber) ->
+    request "https://health.data.ny.gov/resource/diabetes-type-2-prevention-tips.json?category=Make%20healthy%20food%20choices", (error, response, body) ->
+      if error or response.statusCode is not 200
+        console.log 'error'
+      tip = (JSON.parse(body)[Math.floor(Math.random() * JSON.parse(body).length)]).tip
+      while tip.length > 144
+        tip = (JSON.parse(body)[Math.floor(Math.random() * JSON.parse(body).length)]).tip
+      cb phoneNumber, tip
