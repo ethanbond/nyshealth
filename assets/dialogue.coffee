@@ -69,6 +69,9 @@ module.exports =
 	gotIt: () ->
 		return "Got it!"
 
+	reminder: () ->
+		return "Hey there! Just checking in -- how are you? How about taking another measurement. You can say info anytime you need help."
+
 	switchType: (baseStr, type) ->
 		switch
 			when type is 1 then return baseStr + "What did you eat today? Respond with: 'I ate _____, _____, _____'"

@@ -49,8 +49,12 @@ module.exports =
 
   #text daily if diabetic, scaled frequency if not
 
-  random_food_tip: (cb, phoneNumber) ->
-    request "https://health.data.ny.gov/resource/diabetes-type-2-prevention-tips.json?category=Make%20healthy%20food%20choices", (error, response, body) ->
+  random_tip: (cb, phoneNumber, type) ->
+    req = "https://health.data.ny.gov/resource/diabetes-type-2-prevention-tips.json?category="
+    switch
+      when type is 'food' then (req = req + "Make%20healthy%20food%20choices")
+      when type is 'activity' then (req = req + "Be%20physically%20active")
+    request req, (error, response, body) ->
       if error or response.statusCode is not 200
         console.log 'error'
       tip = (JSON.parse(body)[Math.floor(Math.random() * JSON.parse(body).length)]).tip
