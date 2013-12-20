@@ -31,6 +31,9 @@ gender_pool = (gender) ->
 
 module.exports =
   riskf: (age, bmi, gender) ->
+    console.log "BMI " + bmi
+    console.log "age " + age
+    console.log "gender " + gender
     thedata = [[[7.6, 19.8, 29.7, 57.0, 70.3], [12.2, 17.1, 35.4, 54.6, 74.4]], [[6.9, 17.7, 26.2, 50.9, 62.7], [10.6, 14.7, 30.4, 45.8, 62.2]], [[2.2, 10.8, 14.5, 29.6, 34.7], [3.7, 9.3, 18.0, 27.3, 36.0]]]
     thedata[age_pool(age)][gender_pool(gender)][bmi_pool(bmi)]
 

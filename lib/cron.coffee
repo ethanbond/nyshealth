@@ -26,8 +26,11 @@ module.exports =
                 console.log measurementData.height
                 console.log measurementData.time
             else
-              if datakey is 'daysUntil'
+              if dataKey is 'daysUntil'
                 phoneRef.child('daysUntil').once "value", (snapshot) ->
+                  if parseInt(snapshot.val()) is 0
+                    console.log("ZERO!")
+                    parser.updateTimeSeries phoneNumber
                   phoneRef.update daysUntil: snapshot.val()-1
               console.log dataPack
 
