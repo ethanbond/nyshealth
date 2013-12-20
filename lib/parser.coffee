@@ -26,8 +26,8 @@ calculateBMI = (height, weight) ->
 
 getInterval = (age, bmi, gender, isDiabetic) ->
   helpers.text_interval helpers.riskf(age, bmi, gender), isDiabetic
-
 # helper functions also expose random_food_tip(cb(JSONtip))
+
 
 exports.parse = (body, phoneNumber, cb) ->
   console.log(body)
@@ -50,7 +50,7 @@ exports.parse = (body, phoneNumber, cb) ->
   else if getValue(body, "sex:")
     sex = getValue(body, "sex:")
     sex = upperCase(sex)
-    # save sex
+    # save sex, cherish it.
     phoneRef = dataRef.child(phoneNumber)
     phoneRef.update sex: sex
     phoneRef.once "value", (snapshot) ->
