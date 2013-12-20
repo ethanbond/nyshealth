@@ -15,6 +15,7 @@
     "request": "~2.30.0",
     "twilio": "1.4.0",
     "firebase": "~1.0.1",
-    "node-schedule": "~0.1.13"
+    "node-schedule": "~0.1.13",
+    "d3": "~3.3.13"
   }
 }

@@ -209,6 +209,12 @@ exports.parse = (body, phoneNumber, cb) ->
     cb phoneNumber, dialogue.profile(name, age, sex, diabetic)
     return
 
+  else if body.toLowerCase() is "export"
+    # get all height and weights
+    # calculate each BMI
+    # plot WRT time
+    return "2j83op"
+
   else if body.toLowerCase() is "info"
     cb phoneNumber, dialogue.info()
     return
