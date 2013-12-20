@@ -29,15 +29,15 @@ module.exports =
 			return str
 		
 		diabetic: (isDiabetic) ->
-			if isDiabetic is null then return "If you think something's wrong, it's always a good to ask a doctor. But I'll help you make better choices, w/ or w/o diabetes! Try 'help' to see what I can do"
-			if isDiabetic then return "Don't worry too much! You can fight diabetes with good choices, and that's why I'm here. Type 'help' to see what I can do"
-			if not isDiabetic then return "Great! Keeping diabetes away is important, and surprisingly simple as long as you make good decisions. Type 'help' to see what I can do"
+			if isDiabetic is null then return "If you think something's wrong, it's always a good to ask a doctor. But I'll info you make better choices, w/ or w/o diabetes! Try 'info' to see what I can do"
+			if isDiabetic then return "Don't worry too much! You can fight diabetes with good choices, and that's why I'm here. Type 'info' to see what I can do"
+			if not isDiabetic then return "Great! Keeping diabetes away is important, and surprisingly simple as long as you make good decisions. Type 'info' to see what I can do"
 
 
 
 
 	profile: (name, age, sex, diabetic) ->
-		return name + ", are you a " + age + " year old " + sex + "? You can update weight, activity, glucose, heart rate & more any time. Say 'help' if you forget!"
+		return name + ", are you a " + age + " year old " + sex + "? You can update weight, activity, glucose, heart rate & more any time. Say 'info' if you forget!"
 
 	printFoods: (list) ->
 		last = list[list.length - 1]
@@ -51,7 +51,7 @@ module.exports =
 	# getData: (phone) ->
 
 
-	help: () ->
+	info: () ->
 		return """
 		'data',
 		'profile',	
