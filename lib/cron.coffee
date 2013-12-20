@@ -1,6 +1,6 @@
 Firebase = require 'firebase'
-# dialog = require '../assets/dialogue'
-# parser = require './parser'
+dialog = require '../assets/dialogue'
+parser = require './parser'
 
 schedule = require("node-schedule")
 rule = new schedule.RecurrenceRule()
