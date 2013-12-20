@@ -6,10 +6,7 @@
 		<meta name="author" content="{metadata.author}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script src="/javascripts/dust.js"></script>
-		<link rel="stylesheet" href="/stylesheets/app.css">
-		<script type="text/javascript" src="//use.typekit.net/{config.typekitID}.js"></script>
-		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
+		<script type="text/javascript" src="/assets/Chart.min.js"></script>
 		{+stylesheets/}
 	</head>
 	<body>

@@ -16,6 +16,16 @@ getValue = (body, trigger) ->
   split = noWS.split trigger
   return split[1]
 
+makeUrlString = () ->
+  text = ""
+  possible = "abcdefghijklmnopqrstuvwxyz0123456789"
+  i = 0
+
+  while i < 6
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
+    i++
+  text
+
 checkIfPhoneExists = (phoneNumber, callback) ->
   dataRef.child(phoneNumber).once "value", (snapshot) ->
     exists = (snapshot.val() is null)
@@ -210,10 +220,10 @@ exports.parse = (body, phoneNumber, cb) ->
     return
 
   else if body.toLowerCase() is "export"
-    # get all height and weights
-    # calculate each BMI
-    # plot WRT time
-    return "2j83op"
+    urlString = makeUrlString()
+    phoneRef.update exportURL: urlString
+    cb phoneNumber, "visit /" + urlString
+    return
 
   else if body.toLowerCase() is "info"
     cb phoneNumber, dialogue.info()

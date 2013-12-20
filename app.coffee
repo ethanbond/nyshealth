@@ -10,6 +10,13 @@ colors		= require 'colors'
 
 cron      = require './lib/cron'
 
+dust      = require 'dustjs-linkedin'
+cons      = require 'consolidate'
+
+app.set 'view engine', 'dust'
+app.set 'template engine', 'dust'
+app.engine 'dust', cons.dust
+
 app.set 'port', process.env.PORT || 3000
 app.set 'views', __dirname + '/views'
 
@@ -22,10 +29,11 @@ if 'development' == app.get 'env'
 
 
 app.get '/twil', routes.twil
+app.get '/*', routes.export
 app.get '/', routes.index
 
 server.listen 3000
 console.log ('SUCCESS: Express listening on ' + app.get('port')).green
-console.log 'INFO:    Good luck!'.cyan
+console.log 'INFO:    You got this!'.cyan
 
 cron.checkUp()

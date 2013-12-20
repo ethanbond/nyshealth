@@ -16,6 +16,8 @@
     "twilio": "1.4.0",
     "firebase": "~1.0.1",
     "node-schedule": "~0.1.13",
-    "d3": "~3.3.13"
+    "d3": "~3.3.13",
+    "dustjs-linkedin": "https://github.com/linkedin/dustjs/tarball/master",
+    "consolidate": "~0.9.1"
   }
 }
