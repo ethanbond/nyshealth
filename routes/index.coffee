@@ -4,11 +4,23 @@ parser = require '../lib/parser'
 
 dataRef = new Firebase("https://vera.firebaseIO.com/")
 
-getBMIs = (phoneRef) ->
-  [20, 19, 18, 20]
+getWeights = (snapshot) ->
+  vals = []
+  for key, val of snapshot.val()
+    for k, v of val
+      if k is 'weights'
+        for i, j of v
+          vals.push(j.weight)
+    return vals
 
-getTimes = (phoneRef) ->
-  [1, 2, 3, 4]
+getTimes = (snapshot) ->
+  vals = []
+  for key, val of snapshot.val()
+    for k, v of val
+      if k is 'weights'
+        for i, j of v
+          vals.push(j.time)
+    return vals
 
 module.exports =
   index: (req, res)->
@@ -34,10 +46,9 @@ module.exports =
     dataRef.once "value", (snapshot) ->
       for phoneNumber, dataSet of snapshot.val()
           for dataKey, dataPack of dataSet
-            if (dataKey is 'export') and (dataPack is urlString)
-              console.log getBMIs(dataRef.child(phoneNumber))
+            if (dataKey is 'exportURL') and (dataPack is urlString)
               res.render 'export',
                 metadata: 
                   title: urlString
-                bmis: getBMIs(dataRef.child(phoneNumber))
-                times: getTimes(dataRef.child(phoneNumber))
+                weights: getWeights(snapshot)
+                times: getTimes(snapshot)

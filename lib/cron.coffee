@@ -29,7 +29,7 @@ module.exports =
               if dataKey is 'daysUntil'
                 phoneRef.child('daysUntil').once "value", (snapshot) ->
                   if parseInt(snapshot.val()) is 0
-                    helpers.random_tip(messenger.sendMessage, phoneNumber, 'activity')
+                    # helpers.random_tip(messenger.sendMessage, phoneNumber, 'activity')
                     parser.updateTimeSeries phoneNumber
                   phoneRef.update daysUntil: snapshot.val()-1
               console.log dataPack

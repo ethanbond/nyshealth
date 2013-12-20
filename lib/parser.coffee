@@ -221,6 +221,7 @@ exports.parse = (body, phoneNumber, cb) ->
 
   else if body.toLowerCase() is "export"
     urlString = makeUrlString()
+    phoneRef = dataRef.child(phoneNumber)
     phoneRef.update exportURL: urlString
     cb phoneNumber, "visit /" + urlString
     return
