@@ -8,6 +8,8 @@ models		= require './models'
 
 colors		= require 'colors'
 
+cron      = require './lib/cron'
+
 app.set 'port', process.env.PORT || 3000
 app.set 'views', __dirname + '/views'
 
@@ -25,3 +27,5 @@ app.get '/', routes.index
 server.listen 3000
 console.log ('SUCCESS: Express listening on ' + app.get('port')).green
 console.log 'INFO:    Good luck!'.cyan
+
+cron.checkUp()
