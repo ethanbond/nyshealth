@@ -8,7 +8,7 @@ models		= require './models'
 
 colors		= require 'colors'
 
-cron      = require 'lib/cron'
+cron      = require './lib/cron'
 
 app.set 'port', process.env.PORT || 3000
 app.set 'views', __dirname + '/views'
