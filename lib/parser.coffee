@@ -22,7 +22,7 @@ checkIfPhoneExists = (phoneNumber) ->
     return exists
 
 calculateBMI = (height, weight) ->
-  return (weight/height)*(weight/height)*703
+  return (weight/(height*height))*703
 
 getInterval = (age, bmi, gender, isDiabetic) ->
   helpers.text_interval helpers.riskf(age, bmi, gender), isDiabetic
