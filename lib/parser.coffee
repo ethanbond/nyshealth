@@ -25,7 +25,7 @@ calculateBMI = (height, weight) ->
   return (weight/height)*(weight/height)*703
 
 getInterval = (age, bmi, gender, isDiabetic) ->
-  text_interval helpers.riskf(age, bmi, gender), isDiabetic
+  helpers.text_interval helpers.riskf(age, bmi, gender), isDiabetic
 
 # helper functions also expose random_food_tip(cb(JSONtip))
 
