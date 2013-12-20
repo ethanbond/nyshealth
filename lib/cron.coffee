@@ -18,6 +18,7 @@ module.exports =
         for phoneNumber, dataSet of snapshot.val()
           # helpers.random_food_tip(messenger.sendMessage, phoneNumber) # SEND TIPS
           console.log "===" + phoneNumber + "==="
+          phoneRef = dataRef.child(phoneNumber)
           for dataKey, dataPack of dataSet
             console.log "---" + dataKey + "---"
             if typeof dataPack is 'object'
@@ -25,6 +26,9 @@ module.exports =
                 console.log measurementData.height
                 console.log measurementData.time
             else
+              if datakey is 'daysUntil'
+                phoneRef.child('daysUntil').once "value", (snapshot) ->
+                  phoneRef.update daysUntil: snapshot.val()-1
               console.log dataPack
 
     job = schedule.scheduleJob rule, () ->

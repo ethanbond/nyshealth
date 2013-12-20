@@ -33,6 +33,34 @@ getInterval = (age, bmi, gender, isDiabetic) ->
   helpers.text_interval helpers.riskf(age, bmi, gender), isDiabetic
 # helper functions also expose random_food_tip(cb(JSONtip))
 
+
+updateInterval = (phoneNumber, newInterval) ->
+  phoneRef = dataRef.child(phoneNumber)
+  phoneRef.child('daysUntil').once "value", (snapshot) ->
+    if newInterval < snapshot.val()
+      phoneRef.update daysUntil: newInterval
+
+updateTimeSeries = (phoneNumber) ->
+  phoneRef = dataRef.child(phoneNumber)
+  phoneRef.child('age').once "value", (age_ss) ->
+    age = age_ss.val()
+    phoneRef.child('sex').once "value", (sex_ss) ->
+      sex = sex_ss.val()
+      phoneRef.child('diabetic').once "value", (diabetic_ss) ->
+        isDiabetic = false
+        if diabetic_ss.val().toLowerCase() is "yes"
+          isDiabetic = true
+        phoneRef.child('weights').once "value", (weights_ss) ->
+          for key, val of weights_ss.val()
+            phoneRef.child('heights').once "value", (heights_ss) ->
+              for k, v of heights_ss.val()
+                bmi = calculateBMI val.weight, v.height)
+                interval = getInterval age, bmi, gender, isDiabetic
+                return interval
+                break
+            break
+
+
 exports.parse = (body, phoneNumber, cb) ->
   console.log(body)
 
@@ -58,8 +86,6 @@ exports.parse = (body, phoneNumber, cb) ->
     phoneRef.update sex: sex
     phoneRef.once "value", (snapshot) ->
       if snapshot.val().diabetic is -1
-        bmiWeight = 150
-        bmiHeight = 70
         phoneRef.child('weights').once "value", (snapshot) ->
           for key, val of snapshot.val()
             phoneRef.child('heights').once "value", (ss) ->
@@ -122,9 +148,9 @@ exports.parse = (body, phoneNumber, cb) ->
 
   else if getValue(body, "diabetic:")
     diabetic = getValue(body, "diabetic:")
-    if diabetic is "yes"
+    if diabetic.toLowerCase() is "yes"
       diabetic = true
-    else if diabetic is "notsure"
+    else if diabetic.toLowerCase() is "notsure"
       diabetic = null
     else
       diabetic = false
