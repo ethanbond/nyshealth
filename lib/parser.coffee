@@ -2,6 +2,8 @@ twilio = require 'twilio'
 Firebase = require 'firebase'
 dialogue = require '../assets/dialogue'
 
+helpers = require './helpers'
+
 twilioNumber = "+15186335464"
 dataRef = new Firebase("https://vera.firebaseIO.com/")
 
@@ -21,6 +23,11 @@ checkIfPhoneExists = (phoneNumber) ->
 
 calculateBMI = (height, weight) ->
   return (weight/height)*(weight/height)*703
+
+getInterval = (age, bmi, gender, isDiabetic) ->
+  text_interval helpers.riskf(age, bmi, gender), isDiabetic
+
+# helper functions also expose random_food_tip(cb(JSONtip))
 
 exports.parse = (body, phoneNumber, cb) ->
   console.log(body)
