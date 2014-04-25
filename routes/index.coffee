@@ -36,6 +36,7 @@ module.exports =
       res.writeHead 200,
         "Content-Type": "text/xml"
       res.end resp.toString()
+      console.log resp.toString()
 
     console.log 'Incoming request data: '
     for k, v of req.query
@@ -48,7 +49,7 @@ module.exports =
           for dataKey, dataPack of dataSet
             if (dataKey is 'exportURL') and (dataPack is urlString)
               res.render 'export',
-                metadata: 
+                metadata:
                   title: urlString
                 weights: getWeights(snapshot)
                 times: getTimes(snapshot)

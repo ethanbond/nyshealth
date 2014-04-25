@@ -8,7 +8,7 @@ dataRef = new Firebase("https://vera.firebaseIO.com/")
 
 schedule = require("node-schedule")
 rule = new schedule.RecurrenceRule()
-rule.second = [0]
+rule.second = [0, 30]
 
 module.exports =
   checkUp: ()->
